@@ -208,10 +208,6 @@ npm test -- --testPathPattern=auth
 - CORS configuration
 - Rate limiting and DDoS protection
 
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 ## 🤝 Contributing
 
 1. Fork the repository
@@ -219,10 +215,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 3. Commit your changes
 4. Push to the branch
 5. Open a Pull Request
-
-## 📞 Support
-
-For support and questions:
-- Email: support@testflow.com
-- Documentation: [API Docs](http://localhost:3000/api-docs)
-- Issues: [GitHub Issues](https://github.com/your-org/testflow/issues)
