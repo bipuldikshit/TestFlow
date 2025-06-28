@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - MONGODB_URI=mongodb://admin:password@mongo:27017/testflow?authSource=admin
+      - REDIS_URL=redis://redis:6379
+      - JWT_SECRET=your-super-secret-jwt-key-here
+      - JWT_REFRESH_SECRET=your-refresh-secret-key-here
+    depends_on:
+      - mongo
+      - redis
+    volumes:
+      - ./logs:/app/logs
+    restart: unless-stopped
+    command: ["./wait-for-it.sh", "mongo:27017", "--timeout=60", "--", "npm", "start"]
+
+  mongo:
+    image: mongo:6.0
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+      - MONGO_INITDB_DATABASE=testflow
+    volumes:
+      - mongo_data:/data/db
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - app
+    restart: unless-stopped
+
+volumes:
+  mongo_data:
+  redis_data:
